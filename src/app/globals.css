@@ -1,26 +1,18 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'ModernDOS8x16';
+  src: url('/fonts/ModernDOS8x16.woff2') format('woff2'),
+       url('/fonts/ModernDOS8x16.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-dos: 'ModernDOS8x16', monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html, body {
+  font-family: var(--font-dos);
 }
