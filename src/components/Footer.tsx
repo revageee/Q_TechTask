@@ -1,5 +1,6 @@
 import React from "react";
 import {PrefooterInput} from "@/components/PrefooterInput";
+import { typographyStyle } from '@/styles/typography';
 
 type Command = {
   name: string;
@@ -8,16 +9,6 @@ type Command = {
 
 type FooterProps = {
   commands: Command[];
-};
-
-export const typographyStyle = {
-  fontFamily: 'Modern DOS 8x16',
-  fontWeight: 400,
-  fontStyle: 'Regular',
-  fontSize: '36px',
-  lineHeight: '100%',
-  letterSpacing: '0%',
-  verticalAlign: 'middle'
 };
 
 export const Footer: React.FC<FooterProps> = ({ commands }) => (

@@ -1,5 +1,5 @@
 import React from "react";
-import {typographyStyle} from "@/components/Footer";
+import { typographyStyle } from '@/styles/typography';
 
 type PrefooterInputProps = {
   value: string;
