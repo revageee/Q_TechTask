@@ -14,30 +14,58 @@ import {
   dosButtonSmallStyle,
   dosButtonSelectedStyle,
 } from '@/styles/commonStyles';
+import {
+  LEFT_PANEL_ITEMS,
+  DEFAULT_SELECTED_INDEX,
+} from '@/constants/appConstants';
 
 type LeftPanelProps = {
   title?: string;
   items?: string[];
   bottomText: string;
-  activePanel?: 'left' | 'right' | null;
+  activePanel?: 'left' | 'right' | 'header' | null;
   onPanelActive?: (active: boolean) => void;
+  onItemSelect?: (itemName: string) => void;
+  selectedItem?: string;
 };
-
-const leftPanelItems = ['DOS', 'TOOLS', 'XTGOLD', 'LAPLINK', 'DN'];
 
 export const LeftPanel: React.FC<LeftPanelProps> = ({
   bottomText,
   activePanel = null,
   onPanelActive,
+  onItemSelect,
+  selectedItem,
 }) => {
-  const [selectedIdx, setSelectedIdx] = useState<number>(-1);
+  const [selectedIdx, setSelectedIdx] = useState<number>(
+    DEFAULT_SELECTED_INDEX,
+  ); // Start with DN selected
   const listRef = useRef<HTMLUListElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (selectedItem) {
+      const idx = LEFT_PANEL_ITEMS.indexOf(selectedItem);
+      if (idx !== -1) {
+        setSelectedIdx(idx);
+      }
+    }
+  }, [selectedItem]);
 
   useEffect(() => {
     if (activePanel === 'right') {
       setSelectedIdx(-1);
+    } else if (activePanel === 'left') {
+      if (panelRef.current) {
+        panelRef.current.focus();
+      }
     }
   }, [activePanel]);
+
+  useEffect(() => {
+    if (onItemSelect) {
+      onItemSelect(LEFT_PANEL_ITEMS[selectedIdx]);
+    }
+  }, [onItemSelect, selectedIdx]);
 
   const handleHeaderClick = () => {
     setSelectedIdx(-1);
@@ -50,19 +78,37 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
     if (onPanelActive) {
       onPanelActive(true);
     }
+    if (onItemSelect) {
+      onItemSelect(LEFT_PANEL_ITEMS[idx]);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const actions: Record<string, () => void> = {
       ArrowDown: () => {
-        setSelectedIdx((idx) => Math.min(idx + 1, leftPanelItems.length - 1));
+        const newIdx = Math.min(selectedIdx + 1, LEFT_PANEL_ITEMS.length - 1);
+        setSelectedIdx(newIdx);
+        if (onItemSelect) {
+          onItemSelect(LEFT_PANEL_ITEMS[newIdx]);
+        }
       },
       ArrowUp: () => {
-        setSelectedIdx((idx) => Math.max(idx - 1, -1));
+        const newIdx = Math.max(selectedIdx - 1, -1);
+        setSelectedIdx(newIdx);
+        if (newIdx >= 0 && onItemSelect) {
+          onItemSelect(LEFT_PANEL_ITEMS[newIdx]);
+        }
       },
       Enter: () => {
         if (selectedIdx === -1) {
           setSelectedIdx(0);
+          if (onItemSelect) {
+            onItemSelect(LEFT_PANEL_ITEMS[0]);
+          }
+        } else if (selectedIdx >= 0) {
+          if (onPanelActive) {
+            onPanelActive(false);
+          }
         }
       },
       Backspace: () => {
@@ -70,6 +116,11 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       },
       Escape: () => {
         if (selectedIdx > -1) setSelectedIdx(-1);
+      },
+      F10: () => {
+        if (onPanelActive) {
+          onPanelActive(false);
+        }
       },
     };
 
@@ -86,6 +137,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       style={{ ...dosLeftPanelStyle, position: 'relative' }}
       tabIndex={0}
       onKeyDown={handleKeyDown}
+      ref={panelRef}
     >
       <div style={dosTreeIconStyle}>
         <span style={dosTreeIconTextStyle}>{'\\'}</span>
@@ -104,11 +156,11 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
           style={dosTreeListStyle}
           ref={listRef}
         >
-          {leftPanelItems.map((item, idx) => (
+          {LEFT_PANEL_ITEMS.map((item: string, idx: number) => (
             <li key={idx} style={dosTreeItemStyle}>
               <div
                 style={
-                  idx === leftPanelItems.length - 1
+                  idx === LEFT_PANEL_ITEMS.length - 1
                     ? dosTreeLineLastStyle
                     : dosTreeLineStyle
                 }

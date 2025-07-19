@@ -21,19 +21,19 @@ export const PrefooterInput: React.FC<PrefooterInputProps> = ({
   };
 
   return (
-    <div className='w-full bg-dosBlack text-dosYellow font-dos py-1 flex items-center'>
-      <span className='mr-2' style={{ ...typographyStyle, color: '#AAAAAA' }}>
+    <div className="w-full bg-dosBlack text-dosYellow font-dos py-1 flex items-center">
+      <span className="mr-2" style={{ ...typographyStyle, color: '#AAAAAA' }}>
         C:\&gt;
       </span>
       <input
-        className='bg-transparent outline-none border-none flex-1 text-dosYellow font-dos placeholder-dosGray text-sm'
+        className="bg-transparent outline-none border-none flex-1 text-dosYellow font-dos placeholder-dosGray text-sm"
         value={value}
-        onChange={e => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         onKeyPress={handleKeyPress}
         placeholder={placeholder}
-        aria-label='Command input'
-        type='text'
-        style={{ fontFamily: 'inherit' }}
+        aria-label="Command input"
+        type="text"
+        style={{ ...typographyStyle }}
       />
     </div>
   );

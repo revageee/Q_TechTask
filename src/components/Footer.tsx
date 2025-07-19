@@ -22,22 +22,22 @@ export const Footer: React.FC<FooterProps> = ({
   onCommandClick,
   onEnter,
 }) => (
-  <div className='bg-black'>
+  <div className="bg-black">
     <PrefooterInput
       value={inputValue}
       onChange={onInputChange}
       onEnter={onEnter}
     />
-    <footer className='w-full bg-dosBlack flex justify-between font-dos text-dosYellow'>
-      {commands.map(cmd => (
+    <footer className="w-full bg-dosBlack flex justify-between font-dos text-dosYellow">
+      {commands.map((cmd) => (
         <div
           key={cmd.name}
-          className='flex items-center cursor-pointer hover:bg-dosCyan hover:text-black transition-colors duration-200'
+          className="flex items-center cursor-pointer hover:bg-dosCyan hover:text-black transition-colors duration-200"
           onClick={() => onCommandClick(cmd)}
-          role='button'
+          role="button"
           tabIndex={0}
           aria-label={`Command ${cmd.name} (${cmd.number})`}
-          onKeyDown={e => {
+          onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               onCommandClick(cmd);
@@ -45,13 +45,13 @@ export const Footer: React.FC<FooterProps> = ({
           }}
         >
           <span
-            className='font-bold'
+            className="font-bold"
             style={{ ...typographyStyle, color: '#AAAAAA' }}
           >
             {cmd.number}
           </span>
           <span
-            className='text-dosCyan font-bold'
+            className="text-dosCyan font-bold"
             style={{
               ...typographyStyle,
               color: '#000000',

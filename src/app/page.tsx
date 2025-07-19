@@ -5,105 +5,99 @@ import { Header } from '@/components/Header';
 import { LeftPanel } from '@/components/LeftPanel';
 import { RightPanel } from '@/components/RightPanel';
 import { Footer } from '@/components/Footer';
-
-const headerData = [
-  {
-    label: 'File',
-    dropdown: [
-      { label: 'NCD Tree', hotkey: 'Alt+F4' },
-      { label: 'Exit', hotkey: 'Esc' },
-    ],
-  },
-  { label: 'Disk' },
-  { label: 'Commands' },
-];
-
-const leftPanelData = {
-  title: '',
-  items: ['TOOLS', 'XTGOLD', 'LAPLINK', 'DN'],
-  bottomText: 'C:\\',
-};
-
-const rightPanelData = {
-  title: 'C:\\',
-  columns: [
-    {
-      title: 'Name',
-      items: [
-        { name: 'DN' },
-        { name: 'autoexec', format: 'bat' },
-        { name: 'command', format: 'com', active: true },
-        { name: 'config', format: 'sys' },
-        { name: 'Io', format: 'sys' },
-        { name: '11Pro', format: 'sys' },
-        { name: 'Msdod', format: 'sys' },
-      ],
-    },
-    {
-      title: 'Name',
-      items: [],
-    },
-    {
-      title: 'Name',
-      items: [],
-    },
-  ],
-  bottomText: 'DN',
-};
-
-const footerData = [
-  { name: 'Help', number: 1 },
-  { name: 'Menu', number: 2 },
-  { name: 'View', number: 3 },
-  { name: 'Edit', number: 4 },
-  { name: 'Copy', number: 5 },
-  { name: 'RemMov', number: 6 },
-  { name: 'Mkdir', number: 7 },
-  { name: 'Delete', number: 8 },
-  { name: 'PullDn', number: 9 },
-  { name: 'Quit', number: 10 },
-];
+import {
+  HEADER_DATA,
+  FOLDER_DATA,
+  LEFT_PANEL_DATA,
+  FOOTER_DATA,
+  DEFAULT_SELECTED_FOLDER,
+} from '@/constants/appConstants';
 
 export default function Home() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [activePanel, setActivePanel] = useState<'left' | 'right' | null>(null);
+  const [activePanel, setActivePanel] = useState<
+    'left' | 'right' | 'header' | null
+  >(null);
   const [footerInputValue, setFooterInputValue] = useState('');
+  const [selectedFolder, setSelectedFolder] = useState<string>(
+    DEFAULT_SELECTED_FOLDER,
+  );
 
   const handleCommandClick = (command: { name: string; number: number }) => {
-    // eslint-disable-next-line no-alert
     alert(`Виконується команда: ${command.name} (${command.number})`);
   };
 
   const handleFooterInputChange = (value: string) => {
     setFooterInputValue(value);
     if (value.toLowerCase() === 'help') {
-      // eslint-disable-next-line no-alert
       alert(
         'Справка: Доступні команди - help, menu, view, edit, copy, remmov, mkdir, delete, pulldn, quit',
       );
     } else if (value.toLowerCase() === 'quit') {
-      // eslint-disable-next-line no-alert
       alert('Вихід з програми...');
     }
   };
 
   const handleFooterEnter = (value: string) => {
-    // eslint-disable-next-line no-alert
     alert(`Виконується команда: ${value}`);
     setFooterInputValue('');
   };
 
+  const handleLeftPanelItemClick = (folderName: string) => {
+    setSelectedFolder(folderName);
+  };
+
+  const handleLeftPanelActive = (active: boolean) => {
+    if (active) {
+      setActivePanel('left');
+    } else {
+      if (activePanel === 'header') {
+        setActivePanel('header');
+      } else {
+        setActivePanel('right');
+      }
+    }
+  };
+
+  const handleRightPanelActive = (active: boolean) => {
+    if (active) {
+      setActivePanel('right');
+    } else {
+      if (activePanel === 'header') {
+        setActivePanel('header');
+      } else {
+        setActivePanel('left');
+      }
+    }
+  };
+
+  const handleDropdownToggle = () => {
+    setDropdownOpen((v) => !v);
+    if (!dropdownOpen) {
+      setActivePanel('header');
+    }
+  };
+
+  const handleOutsideClick = () => {
+    setDropdownOpen(false);
+    setActivePanel('left');
+  };
+
+  const currentRightPanelData =
+    FOLDER_DATA[selectedFolder as keyof typeof FOLDER_DATA] || FOLDER_DATA.DN;
+
   return (
-    <div className='w-full min-h-screen flex flex-col bg-[#0000AA] text-[#55FFFF] font-dos'>
+    <div className="w-full min-h-screen flex flex-col bg-[#0000AA] text-[#55FFFF] font-dos">
       <Header
-        items={headerData}
+        items={HEADER_DATA}
         activeDropdown={dropdownOpen}
-        onDropdownToggle={() => setDropdownOpen(v => !v)}
-        onOutsideClick={() => setDropdownOpen(false)}
+        onDropdownToggle={handleDropdownToggle}
+        onOutsideClick={handleOutsideClick}
+        activePanel={activePanel}
       />
-      <div className='flex-1 flex flex-col'>
+      <div className="flex-1 flex flex-col">
         <div
-          className='flex-1 flex flex-row'
+          className="flex-1 flex flex-row"
           style={{
             borderTop: 0,
             borderRadius: 0,
@@ -114,25 +108,27 @@ export default function Home() {
         >
           <div style={{ flex: 1, minWidth: 0 }}>
             <LeftPanel
-              title={leftPanelData.title}
-              items={leftPanelData.items}
-              bottomText={leftPanelData.bottomText}
+              title={LEFT_PANEL_DATA.title}
+              items={LEFT_PANEL_DATA.items}
+              bottomText={LEFT_PANEL_DATA.bottomText}
               activePanel={activePanel}
-              onPanelActive={active => setActivePanel(active ? 'left' : null)}
+              onPanelActive={handleLeftPanelActive}
+              onItemSelect={handleLeftPanelItemClick}
+              selectedItem={selectedFolder}
             />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <RightPanel
-              title={rightPanelData.title}
-              columns={rightPanelData.columns}
-              bottomText={rightPanelData.bottomText}
+              title={currentRightPanelData.title}
+              columns={currentRightPanelData.columns}
+              bottomText={currentRightPanelData.bottomText}
               activePanel={activePanel}
-              onPanelActive={active => setActivePanel(active ? 'right' : null)}
+              onPanelActive={handleRightPanelActive}
             />
           </div>
         </div>
         <Footer
-          commands={footerData}
+          commands={FOOTER_DATA}
           inputValue={footerInputValue}
           onInputChange={handleFooterInputChange}
           onCommandClick={handleCommandClick}

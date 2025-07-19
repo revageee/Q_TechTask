@@ -9,22 +9,18 @@ import {
   dosHotkeyStyle,
   dosDropdownBorderStyle,
 } from '@/styles/commonStyles';
-
-type DropdownItem = {
-  label: string;
-  hotkey?: string;
-};
-
-type MenuItem = {
-  label: string;
-  dropdown?: DropdownItem[];
-};
+import {
+  FILE_DROPDOWN_ITEMS,
+  DropdownItem,
+  MenuItem,
+} from '@/constants/appConstants';
 
 type HeaderProps = {
   items: MenuItem[];
   activeDropdown: boolean;
   onDropdownToggle: () => void;
   onOutsideClick: () => void;
+  activePanel?: 'left' | 'right' | 'header' | null;
 };
 
 export const Header: React.FC<HeaderProps> = ({
@@ -32,14 +28,19 @@ export const Header: React.FC<HeaderProps> = ({
   activeDropdown,
   onDropdownToggle,
   onOutsideClick,
+  activePanel = null,
 }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const [dropdownIndex, setDropdownIndex] = useState(0);
   const [activeMenuIdx, setActiveMenuIdx] = useState(0);
-  const fileDropdown: DropdownItem[] = [
-    { label: 'NCD Tree', hotkey: 'Alt+F4' },
-    { label: 'Exit', hotkey: 'Esc' },
-  ];
+  const fileDropdown: DropdownItem[] = FILE_DROPDOWN_ITEMS;
+
+  useEffect(() => {
+    if (activePanel === 'header' && headerRef.current) {
+      headerRef.current.focus();
+    }
+  }, [activePanel]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -66,7 +67,6 @@ export const Header: React.FC<HeaderProps> = ({
   };
   const handleDropdownClick = (i: number) => {
     setDropdownIndex(i);
-    // eslint-disable-next-line no-alert
     alert(`Выбран пункт: ${fileDropdown[i].label}`);
   };
 
@@ -74,17 +74,30 @@ export const Header: React.FC<HeaderProps> = ({
     const isDropdownActive = activeDropdown && items[activeMenuIdx].dropdown;
 
     const menuActions: Record<string, () => void> = {
-      ArrowRight: () => setActiveMenuIdx(idx => (idx + 1) % items.length),
+      ArrowRight: () => setActiveMenuIdx((idx) => (idx + 1) % items.length),
       ArrowLeft: () =>
-        setActiveMenuIdx(idx => (idx - 1 + items.length) % items.length),
+        setActiveMenuIdx((idx) => (idx - 1 + items.length) % items.length),
+      Enter: () => {
+        if (items[activeMenuIdx].dropdown) {
+          onDropdownToggle();
+        }
+      },
     };
 
     const dropdownActions: Record<string, () => void> = {
-      ArrowDown: () => setDropdownIndex(idx => (idx + 1) % fileDropdown.length),
+      ArrowDown: () =>
+        setDropdownIndex((idx) => (idx + 1) % fileDropdown.length),
       ArrowUp: () =>
         setDropdownIndex(
-          idx => (idx - 1 + fileDropdown.length) % fileDropdown.length,
+          (idx) => (idx - 1 + fileDropdown.length) % fileDropdown.length,
         ),
+      Enter: () => {
+        handleDropdownClick(dropdownIndex);
+        onOutsideClick();
+      },
+      Escape: () => {
+        onOutsideClick();
+      },
     };
 
     const actions = isDropdownActive ? dropdownActions : menuActions;
@@ -98,16 +111,17 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className='w-full flex items-center px-12 h-8'
+      className="w-full flex items-center px-12 h-8"
       style={dosHeaderStyle}
       tabIndex={0}
       onKeyDown={handleKeyDown}
+      ref={headerRef}
     >
-      <nav className='flex h-full'>
+      <nav className="flex h-full">
         {items.map((item, idx) => {
           const isActive = idx === activeMenuIdx;
           return (
-            <div key={item.label} className='relative h-full'>
+            <div key={item.label} className="relative h-full">
               <button
                 className={
                   'h-full px-12 flex items-center font-bold border-none outline-none'
@@ -125,7 +139,7 @@ export const Header: React.FC<HeaderProps> = ({
               {isActive && item.dropdown && activeDropdown && (
                 <div
                   ref={dropdownRef}
-                  className='fixed z-10 left-0 min-w-[300px] sm:min-w-[400px] md:min-w-[500px] lg:min-w-[600px] xl:min-w-[700px] flex flex-col'
+                  className="fixed z-10 left-0 min-w-[300px] sm:min-w-[400px] md:min-w-[500px] lg:min-w-[600px] xl:min-w-[700px] flex flex-col"
                   style={dosDropdownStyle}
                 >
                   <div style={dosDropdownBorderStyle}>
@@ -134,7 +148,7 @@ export const Header: React.FC<HeaderProps> = ({
                       return (
                         <button
                           key={sub.label}
-                          className='w-full flex flex-row items-center justify-between px-2'
+                          className="w-full flex flex-row items-center justify-between px-2"
                           style={{
                             ...dosDropdownItemStyle,
                             ...(isSelected ? dosDropdownItemSelectedStyle : {}),

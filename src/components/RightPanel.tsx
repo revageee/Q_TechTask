@@ -9,24 +9,14 @@ import {
   dosButtonSelectedStyle,
   dosDividerStyle,
 } from '@/styles/commonStyles';
-
-type FileItem = {
-  name: string;
-  format?: string;
-  active?: boolean;
-};
-
-type Column = {
-  title: string;
-  items: FileItem[];
-};
+import { Column } from '@/constants/appConstants';
 
 type RightPanelProps = {
   title?: string;
   columns: Column[];
   bottomText: string;
   onPanelActive?: (active: boolean) => void;
-  activePanel?: 'left' | 'right' | null;
+  activePanel?: 'left' | 'right' | 'header' | null;
 };
 
 export const RightPanel: React.FC<RightPanelProps> = ({
@@ -42,12 +32,18 @@ export const RightPanel: React.FC<RightPanelProps> = ({
     useRef<HTMLUListElement>(null),
     useRef<HTMLUListElement>(null),
   ];
+  const panelRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (activePanel === 'left') {
       setSelectedCol(-1);
+    } else if (activePanel === 'right' && selectedCol === -1) {
+      setSelectedCol(0);
+      if (panelRef.current) {
+        panelRef.current.focus();
+      }
     }
-  }, [activePanel]);
+  }, [activePanel, selectedCol]);
 
   const handleHeaderClick = () => {
     setSelectedCol(-1);
@@ -57,6 +53,13 @@ export const RightPanel: React.FC<RightPanelProps> = ({
   };
 
   const handleItemClick = (col: number, idx: number) => {
+    if (idx === 0) {
+      setSelectedCol(-1);
+      if (onPanelActive) {
+        onPanelActive(false);
+      }
+      return;
+    }
     setSelectedCol(col);
     setSelectedIdx((prev) => prev.map((v, i) => (i === col ? idx : v)));
     if (onPanelActive) {
@@ -94,8 +97,26 @@ export const RightPanel: React.FC<RightPanelProps> = ({
           if (selectedCol < columns.length - 1)
             setSelectedCol((col) => col + 1);
         },
+        Enter: () => {
+          if (selectedIdx[selectedCol] === 0) {
+            setSelectedCol(-1);
+            if (onPanelActive) {
+              onPanelActive(false);
+            }
+          }
+        },
         Backspace: () => setSelectedCol(-1),
-        Escape: () => setSelectedCol(-1),
+        Escape: () => {
+          setSelectedCol(-1);
+          if (onPanelActive) {
+            onPanelActive(false);
+          }
+        },
+        F10: () => {
+          if (onPanelActive) {
+            onPanelActive(false);
+          }
+        },
       };
 
       const action = actions[e.key];
@@ -112,6 +133,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
       style={dosPanelStyle}
       tabIndex={0}
       onKeyDown={handleKeyDown}
+      ref={panelRef}
     >
       <PanelHeader
         label="C:\"

@@ -23,12 +23,10 @@ const eslintConfig = [
       },
     },
     rules: {
-      // TypeScript правила
       '@typescript-eslint/no-unused-vars': 'error',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-var-requires': 'error',
 
-      // React правила
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
@@ -36,17 +34,14 @@ const eslintConfig = [
       'react/jsx-no-duplicate-props': 'error',
       'react/jsx-key': 'error',
 
-      // Общие правила
       'no-console': 'warn',
       'no-debugger': 'error',
-      'no-alert': 'warn',
       'prefer-const': 'error',
       'no-var': 'error',
       'object-shorthand': 'error',
       'prefer-template': 'error',
 
-      // Форматирование
-      indent: 'off', // Temporarily disabled
+      indent: 'off',
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
       'comma-dangle': ['error', 'always-multiline'],
