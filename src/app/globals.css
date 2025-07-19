@@ -22,15 +22,13 @@ body {
   padding: 0;
 }
 
-/* Базовые респонсивные настройки */
 * {
   box-sizing: border-box;
 }
 
-/* Простые медиа-запросы для основных размеров экранов */
 @media (min-width: 1024px) {
   html {
-    font-size: 18px;
+    font-size: 10px;
   }
 }
 

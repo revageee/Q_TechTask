@@ -17,11 +17,11 @@ export const PanelHeader: React.FC<PanelHeaderProps> = ({
   selected = false,
 }) => (
   <div
-    className='w-full flex items-stretch justify-center relative'
+    className="w-full flex items-stretch justify-center relative"
     style={dosPanelHeaderStyle}
   >
     <button
-      className='flex items-center justify-center h-full px-4 font-bold text-center'
+      className="flex items-center justify-center h-full px-4 font-bold text-center"
       style={{
         ...dosButtonStyle,
         ...(selected ? dosButtonSelectedStyle : {}),
