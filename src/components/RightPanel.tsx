@@ -26,15 +26,15 @@ type RightPanelProps = {
   columns: Column[];
   bottomText: string;
   onPanelActive?: (active: boolean) => void;
-  activePanel?: 'left' | 'right' | null;
+  activePanel?: 'left' | 'right' | 'header' | null;
 };
 
 export const RightPanel: React.FC<RightPanelProps> = ({
-                                                        columns,
-                                                        bottomText,
-                                                        onPanelActive,
-                                                        activePanel = null,
-                                                      }) => {
+  columns,
+  bottomText,
+  onPanelActive,
+  activePanel = null,
+}) => {
   const [selectedCol, setSelectedCol] = useState<number>(-1);
   const [selectedIdx, setSelectedIdx] = useState<number[]>([0, 0, 0]);
   const listRefs = [
@@ -45,7 +45,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
   const panelRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (activePanel === 'left') {
+    if (activePanel === 'left' || activePanel === 'header') {
       setSelectedCol(-1);
     } else if (activePanel === 'right' && selectedCol === -1) {
       setSelectedCol(0);
@@ -180,12 +180,13 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                           justifyContent: 'space-between',
                           ...(selectedCol === col &&
                           selectedIdx[col] === i &&
-                          activePanel !== 'left'
+                          activePanel !== 'left' &&
+                          activePanel !== 'header'
                             ? {
-                              ...dosButtonSelectedStyle,
-                              background: '#55FFFF',
-                              color: '#000',
-                            }
+                                ...dosButtonSelectedStyle,
+                                background: '#55FFFF',
+                                color: '#000',
+                              }
                             : { color: '#00FFFF', background: 'transparent' }),
                         }}
                         onClick={() => handleItemClick(col, i)}
@@ -193,7 +194,8 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                         aria-pressed={
                           selectedCol === col &&
                           selectedIdx[col] === i &&
-                          activePanel !== 'left'
+                          activePanel !== 'left' &&
+                          activePanel !== 'header'
                         }
                         aria-label={`Select ${item.name}${item.format ? ` (${item.format})` : ''}`}
                       >
@@ -206,7 +208,8 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                               color:
                                 selectedCol === col &&
                                 selectedIdx[col] === i &&
-                                activePanel !== 'left'
+                                activePanel !== 'left' &&
+                                activePanel !== 'header'
                                   ? '#000'
                                   : '#00FFFF',
                             }}

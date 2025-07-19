@@ -19,7 +19,7 @@ type LeftPanelProps = {
   title?: string;
   items?: string[];
   bottomText: string;
-  activePanel?: 'left' | 'right' | null;
+  activePanel?: 'left' | 'right' | 'header' | null;
   onPanelActive?: (active: boolean) => void;
   onItemSelect?: (itemName: string) => void;
   selectedItem?: string;
@@ -28,12 +28,12 @@ type LeftPanelProps = {
 const leftPanelItems = ['DOS', 'TOOLS', 'XTGOLD', 'LAPLINK', 'DN'];
 
 export const LeftPanel: React.FC<LeftPanelProps> = ({
-                                                      bottomText,
-                                                      activePanel = null,
-                                                      onPanelActive,
-                                                      onItemSelect,
-                                                      selectedItem,
-                                                    }) => {
+  bottomText,
+  activePanel = null,
+  onPanelActive,
+  onItemSelect,
+  selectedItem,
+}) => {
   const [selectedIdx, setSelectedIdx] = useState<number>(4); // Start with DN selected
   const listRef = useRef<HTMLUListElement>(null);
   const panelRef = useRef<HTMLElement>(null);
@@ -48,7 +48,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
   }, [selectedItem]);
 
   useEffect(() => {
-    if (activePanel === 'right') {
+    if (activePanel === 'right' || activePanel === 'header') {
       setSelectedIdx(-1);
     } else if (activePanel === 'left') {
       if (panelRef.current) {
@@ -141,7 +141,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       <PanelHeader
         label="TREE"
         onClick={handleHeaderClick}
-        selected={activePanel !== 'right'}
+        selected={activePanel !== 'right' && activePanel !== 'header'}
       />
       <div
         className="flex flex-col m-1 mt-0 h-full"
@@ -172,17 +172,23 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  ...(selectedIdx === idx && activePanel !== 'right'
+                  ...(selectedIdx === idx &&
+                  activePanel !== 'right' &&
+                  activePanel !== 'header'
                     ? {
-                      ...dosButtonSelectedStyle,
-                      background: '#55FFFF',
-                      color: '#000',
-                    }
+                        ...dosButtonSelectedStyle,
+                        background: '#55FFFF',
+                        color: '#000',
+                      }
                     : { color: '#00FFFF', background: 'transparent' }),
                 }}
                 onClick={() => handleItemClick(idx)}
                 tabIndex={-1}
-                aria-pressed={selectedIdx === idx && activePanel !== 'right'}
+                aria-pressed={
+                  selectedIdx === idx &&
+                  activePanel !== 'right' &&
+                  activePanel !== 'header'
+                }
                 aria-label={`Select ${item}`}
               >
                 <span>{item}</span>
