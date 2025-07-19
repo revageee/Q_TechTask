@@ -9,22 +9,32 @@ import {
   dosButtonSelectedStyle,
   dosDividerStyle,
 } from '@/styles/commonStyles';
-import { Column } from '@/constants/appConstants';
+
+type FileItem = {
+  name: string;
+  format?: string;
+  active?: boolean;
+};
+
+type Column = {
+  title: string;
+  items: FileItem[];
+};
 
 type RightPanelProps = {
   title?: string;
   columns: Column[];
   bottomText: string;
   onPanelActive?: (active: boolean) => void;
-  activePanel?: 'left' | 'right' | 'header' | null;
+  activePanel?: 'left' | 'right' | null;
 };
 
 export const RightPanel: React.FC<RightPanelProps> = ({
-  columns,
-  bottomText,
-  onPanelActive,
-  activePanel = null,
-}) => {
+                                                        columns,
+                                                        bottomText,
+                                                        onPanelActive,
+                                                        activePanel = null,
+                                                      }) => {
   const [selectedCol, setSelectedCol] = useState<number>(-1);
   const [selectedIdx, setSelectedIdx] = useState<number[]>([0, 0, 0]);
   const listRefs = [
@@ -172,10 +182,10 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                           selectedIdx[col] === i &&
                           activePanel !== 'left'
                             ? {
-                                ...dosButtonSelectedStyle,
-                                background: '#55FFFF',
-                                color: '#000',
-                              }
+                              ...dosButtonSelectedStyle,
+                              background: '#55FFFF',
+                              color: '#000',
+                            }
                             : { color: '#00FFFF', background: 'transparent' }),
                         }}
                         onClick={() => handleItemClick(col, i)}
