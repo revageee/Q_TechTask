@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        dos: ["var(--font-dos)", "monospace"],
+        dos: ['var(--font-dos)', 'monospace'],
       },
       colors: {
         dosBlue: '#0000AA',
@@ -22,4 +22,4 @@ module.exports = {
     },
   },
   plugins: [],
-}; 
+};
