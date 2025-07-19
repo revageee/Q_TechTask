@@ -67,7 +67,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
   const handleDropdownClick = (i: number) => {
     setDropdownIndex(i);
-    alert(`Выбран пункт: ${fileDropdown[i].label}`);
+    alert(`Вибрано пункт: ${fileDropdown[i].label}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
