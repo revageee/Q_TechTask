@@ -1,9 +1,10 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @font-face {
   font-family: 'ModernDOS8x16';
-  src: url('/fonts/ModernDOS8x16.woff2') format('woff2'),
-       url('/fonts/ModernDOS8x16.woff') format('woff');
+  src:
+    url('/fonts/ModernDOS8x16.woff2') format('woff2'),
+    url('/fonts/ModernDOS8x16.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -13,6 +14,34 @@
   --font-dos: 'ModernDOS8x16', monospace;
 }
 
-html, body {
+html,
+body {
   font-family: var(--font-dos);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Базовые респонсивные настройки */
+* {
+  box-sizing: border-box;
+}
+
+/* Простые медиа-запросы для основных размеров экранов */
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1280px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1920px) {
+  html {
+    font-size: 22px;
+  }
 }

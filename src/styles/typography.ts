@@ -6,4 +6,4 @@ export const typographyStyle = {
   lineHeight: '100%',
   letterSpacing: '0%',
   verticalAlign: 'middle',
-}; 
+};
