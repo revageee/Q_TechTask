@@ -19,7 +19,9 @@ export default function Home() {
     'left' | 'right' | 'header' | null
   >(null);
   const [footerInputValue, setFooterInputValue] = useState('');
-  const [selectedFolder, setSelectedFolder] = useState<string>(DEFAULT_SELECTED_FOLDER);
+  const [selectedFolder, setSelectedFolder] = useState<string>(
+    DEFAULT_SELECTED_FOLDER,
+  );
 
   const handleCommandClick = (command: { name: string; number: number }) => {
     alert(`Виконується команда: ${command.name} (${command.number})`);

@@ -200,4 +200,4 @@ export const FOOTER_DATA: FooterCommand[] = [
 
 // Default values
 export const DEFAULT_SELECTED_FOLDER = 'DN';
-export const DEFAULT_SELECTED_INDEX = 4; // DN index in LEFT_PANEL_ITEMS 
+export const DEFAULT_SELECTED_INDEX = 4; // DN index in LEFT_PANEL_ITEMS

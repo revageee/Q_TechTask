@@ -14,7 +14,10 @@ import {
   dosButtonSmallStyle,
   dosButtonSelectedStyle,
 } from '@/styles/commonStyles';
-import { LEFT_PANEL_ITEMS, DEFAULT_SELECTED_INDEX } from '@/constants/appConstants';
+import {
+  LEFT_PANEL_ITEMS,
+  DEFAULT_SELECTED_INDEX,
+} from '@/constants/appConstants';
 
 type LeftPanelProps = {
   title?: string;
@@ -33,7 +36,9 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
   onItemSelect,
   selectedItem,
 }) => {
-  const [selectedIdx, setSelectedIdx] = useState<number>(DEFAULT_SELECTED_INDEX); // Start with DN selected
+  const [selectedIdx, setSelectedIdx] = useState<number>(
+    DEFAULT_SELECTED_INDEX,
+  ); // Start with DN selected
   const listRef = useRef<HTMLUListElement>(null);
   const panelRef = useRef<HTMLElement>(null);
 
@@ -60,7 +65,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
     if (onItemSelect) {
       onItemSelect(LEFT_PANEL_ITEMS[selectedIdx]);
     }
-  }, []);
+  }, [onItemSelect, selectedIdx]);
 
   const handleHeaderClick = () => {
     setSelectedIdx(-1);

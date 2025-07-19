@@ -9,7 +9,7 @@ import {
   dosButtonSelectedStyle,
   dosDividerStyle,
 } from '@/styles/commonStyles';
-import { FileItem, Column } from '@/constants/appConstants';
+import { Column } from '@/constants/appConstants';
 
 type RightPanelProps = {
   title?: string;

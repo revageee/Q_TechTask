@@ -9,7 +9,11 @@ import {
   dosHotkeyStyle,
   dosDropdownBorderStyle,
 } from '@/styles/commonStyles';
-import { FILE_DROPDOWN_ITEMS, DropdownItem, MenuItem } from '@/constants/appConstants';
+import {
+  FILE_DROPDOWN_ITEMS,
+  DropdownItem,
+  MenuItem,
+} from '@/constants/appConstants';
 
 type HeaderProps = {
   items: MenuItem[];
