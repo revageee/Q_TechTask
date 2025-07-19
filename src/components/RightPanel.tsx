@@ -30,7 +30,6 @@ type RightPanelProps = {
 };
 
 export const RightPanel: React.FC<RightPanelProps> = ({
-  title,
   columns,
   bottomText,
   onPanelActive,
@@ -59,7 +58,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
 
   const handleItemClick = (col: number, idx: number) => {
     setSelectedCol(col);
-    setSelectedIdx(prev => prev.map((v, i) => (i === col ? idx : v)));
+    setSelectedIdx((prev) => prev.map((v, i) => (i === col ? idx : v)));
     if (onPanelActive) {
       onPanelActive(true);
     }
@@ -77,22 +76,23 @@ export const RightPanel: React.FC<RightPanelProps> = ({
 
       const actions: Record<string, () => void> = {
         ArrowDown: () => {
-          setSelectedIdx(prev =>
+          setSelectedIdx((prev) =>
             prev.map((v, i) =>
-              i === selectedCol ? Math.min(v + 1, colLength - 1) : v
-            )
+              i === selectedCol ? Math.min(v + 1, colLength - 1) : v,
+            ),
           );
         },
         ArrowUp: () => {
-          setSelectedIdx(prev =>
-            prev.map((v, i) => (i === selectedCol ? Math.max(v - 1, 0) : v))
+          setSelectedIdx((prev) =>
+            prev.map((v, i) => (i === selectedCol ? Math.max(v - 1, 0) : v)),
           );
         },
         ArrowLeft: () => {
-          if (selectedCol > 0) setSelectedCol(col => col - 1);
+          if (selectedCol > 0) setSelectedCol((col) => col - 1);
         },
         ArrowRight: () => {
-          if (selectedCol < columns.length - 1) setSelectedCol(col => col + 1);
+          if (selectedCol < columns.length - 1)
+            setSelectedCol((col) => col + 1);
         },
         Backspace: () => setSelectedCol(-1),
         Escape: () => setSelectedCol(-1),
@@ -108,30 +108,30 @@ export const RightPanel: React.FC<RightPanelProps> = ({
 
   return (
     <section
-      className='flex flex-col h-full flex-1 font-dos mx-[4px]'
+      className="flex flex-col h-full flex-1 font-dos mx-[4px]"
       style={dosPanelStyle}
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
       <PanelHeader
-        label='C:\'
+        label="C:\"
         onClick={handleHeaderClick}
         selected={activePanel === 'right'}
       />
       <div
-        className='flex flex-col m-1 mt-0 h-full'
+        className="flex flex-col m-1 mt-0 h-full"
         style={dosPanelContentStyle}
       >
         <div
-          className='flex flex-row w-full h-full items-stretch'
+          className="flex flex-row w-full h-full items-stretch"
           style={{ marginTop: 0 }}
         >
-          {[0, 1, 2].map(col => (
+          {[0, 1, 2].map((col) => (
             <React.Fragment key={col}>
-              <div className='flex-1 text-center font-bold flex flex-col h-full'>
+              <div className="flex-1 text-center font-bold flex flex-col h-full">
                 <div style={dosPanelTitleStyle}>{columns[col].title}</div>
                 <ul
-                  className='flex-1 h-full space-y-0.5'
+                  className="flex-1 h-full space-y-0.5"
                   ref={listRefs[col]}
                   tabIndex={-1}
                 >
@@ -168,7 +168,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                         <span>{item.name}</span>
                         {item.format && (
                           <span
-                            className='text-xs'
+                            className="text-xs"
                             style={{
                               ...dosButtonSmallStyle,
                               color:
@@ -191,7 +191,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
             </React.Fragment>
           ))}
         </div>
-        <div className='p-2 text-xs' style={dosPanelBottomStyle}>
+        <div className="p-2 text-xs" style={dosPanelBottomStyle}>
           {bottomText}
         </div>
       </div>

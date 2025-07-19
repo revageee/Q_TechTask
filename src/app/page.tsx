@@ -70,21 +70,25 @@ export default function Home() {
   const [footerInputValue, setFooterInputValue] = useState('');
 
   const handleCommandClick = (command: { name: string; number: number }) => {
+    // eslint-disable-next-line no-alert
     alert(`Виконується команда: ${command.name} (${command.number})`);
   };
 
   const handleFooterInputChange = (value: string) => {
     setFooterInputValue(value);
     if (value.toLowerCase() === 'help') {
+      // eslint-disable-next-line no-alert
       alert(
-        'Справка: Доступні команди - help, menu, view, edit, copy, remmov, mkdir, delete, pulldn, quit'
+        'Справка: Доступні команди - help, menu, view, edit, copy, remmov, mkdir, delete, pulldn, quit',
       );
     } else if (value.toLowerCase() === 'quit') {
+      // eslint-disable-next-line no-alert
       alert('Вихід з програми...');
     }
   };
 
   const handleFooterEnter = (value: string) => {
+    // eslint-disable-next-line no-alert
     alert(`Виконується команда: ${value}`);
     setFooterInputValue('');
   };
