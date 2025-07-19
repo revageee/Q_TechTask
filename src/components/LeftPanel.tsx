@@ -26,7 +26,6 @@ type LeftPanelProps = {
 const leftPanelItems = ['DOS', 'TOOLS', 'XTGOLD', 'LAPLINK', 'DN'];
 
 export const LeftPanel: React.FC<LeftPanelProps> = ({
-  title,
   bottomText,
   activePanel = null,
   onPanelActive,
@@ -56,10 +55,10 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const actions: Record<string, () => void> = {
       ArrowDown: () => {
-        setSelectedIdx(idx => Math.min(idx + 1, leftPanelItems.length - 1));
+        setSelectedIdx((idx) => Math.min(idx + 1, leftPanelItems.length - 1));
       },
       ArrowUp: () => {
-        setSelectedIdx(idx => Math.max(idx - 1, -1));
+        setSelectedIdx((idx) => Math.max(idx - 1, -1));
       },
       Enter: () => {
         if (selectedIdx === -1) {
@@ -83,7 +82,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
 
   return (
     <aside
-      className='flex flex-col h-full'
+      className="flex flex-col h-full"
       style={{ ...dosLeftPanelStyle, position: 'relative' }}
       tabIndex={0}
       onKeyDown={handleKeyDown}
@@ -92,16 +91,16 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
         <span style={dosTreeIconTextStyle}>{'\\'}</span>
       </div>
       <PanelHeader
-        label='TREE'
+        label="TREE"
         onClick={handleHeaderClick}
         selected={activePanel !== 'right'}
       />
       <div
-        className='flex flex-col m-1 mt-0 h-full'
+        className="flex flex-col m-1 mt-0 h-full"
         style={dosPanelContentStyle}
       >
         <ul
-          className='flex flex-col items-start'
+          className="flex flex-col items-start"
           style={dosTreeListStyle}
           ref={listRef}
         >
@@ -143,7 +142,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
             </li>
           ))}
         </ul>
-        <div className='p-2 text-xs' style={dosPanelBottomStyle}>
+        <div className="p-2 text-xs" style={dosPanelBottomStyle}>
           {bottomText}
         </div>
       </div>

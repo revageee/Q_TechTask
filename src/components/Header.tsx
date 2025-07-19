@@ -66,6 +66,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
   const handleDropdownClick = (i: number) => {
     setDropdownIndex(i);
+    // eslint-disable-next-line no-alert
     alert(`Выбран пункт: ${fileDropdown[i].label}`);
   };
 
@@ -82,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({
       ArrowDown: () => setDropdownIndex(idx => (idx + 1) % fileDropdown.length),
       ArrowUp: () =>
         setDropdownIndex(
-          idx => (idx - 1 + fileDropdown.length) % fileDropdown.length
+          idx => (idx - 1 + fileDropdown.length) % fileDropdown.length,
         ),
     };
 

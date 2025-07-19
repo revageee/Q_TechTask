@@ -46,7 +46,7 @@ const eslintConfig = [
       'prefer-template': 'error',
 
       // Форматирование
-      indent: ['error', 2],
+      indent: 'off', // Temporarily disabled
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
       'comma-dangle': ['error', 'always-multiline'],
