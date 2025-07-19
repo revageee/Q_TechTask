@@ -14,37 +14,33 @@ import {
   dosButtonSmallStyle,
   dosButtonSelectedStyle,
 } from '@/styles/commonStyles';
-import {
-  LEFT_PANEL_ITEMS,
-  DEFAULT_SELECTED_INDEX,
-} from '@/constants/appConstants';
 
 type LeftPanelProps = {
   title?: string;
   items?: string[];
   bottomText: string;
-  activePanel?: 'left' | 'right' | 'header' | null;
+  activePanel?: 'left' | 'right' | null;
   onPanelActive?: (active: boolean) => void;
   onItemSelect?: (itemName: string) => void;
   selectedItem?: string;
 };
 
+const leftPanelItems = ['DOS', 'TOOLS', 'XTGOLD', 'LAPLINK', 'DN'];
+
 export const LeftPanel: React.FC<LeftPanelProps> = ({
-  bottomText,
-  activePanel = null,
-  onPanelActive,
-  onItemSelect,
-  selectedItem,
-}) => {
-  const [selectedIdx, setSelectedIdx] = useState<number>(
-    DEFAULT_SELECTED_INDEX,
-  ); // Start with DN selected
+                                                      bottomText,
+                                                      activePanel = null,
+                                                      onPanelActive,
+                                                      onItemSelect,
+                                                      selectedItem,
+                                                    }) => {
+  const [selectedIdx, setSelectedIdx] = useState<number>(4); // Start with DN selected
   const listRef = useRef<HTMLUListElement>(null);
   const panelRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (selectedItem) {
-      const idx = LEFT_PANEL_ITEMS.indexOf(selectedItem);
+      const idx = leftPanelItems.indexOf(selectedItem);
       if (idx !== -1) {
         setSelectedIdx(idx);
       }
@@ -63,9 +59,9 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
 
   useEffect(() => {
     if (onItemSelect) {
-      onItemSelect(LEFT_PANEL_ITEMS[selectedIdx]);
+      onItemSelect(leftPanelItems[selectedIdx]);
     }
-  }, [onItemSelect, selectedIdx]);
+  }, []);
 
   const handleHeaderClick = () => {
     setSelectedIdx(-1);
@@ -79,31 +75,31 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       onPanelActive(true);
     }
     if (onItemSelect) {
-      onItemSelect(LEFT_PANEL_ITEMS[idx]);
+      onItemSelect(leftPanelItems[idx]);
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const actions: Record<string, () => void> = {
       ArrowDown: () => {
-        const newIdx = Math.min(selectedIdx + 1, LEFT_PANEL_ITEMS.length - 1);
+        const newIdx = Math.min(selectedIdx + 1, leftPanelItems.length - 1);
         setSelectedIdx(newIdx);
         if (onItemSelect) {
-          onItemSelect(LEFT_PANEL_ITEMS[newIdx]);
+          onItemSelect(leftPanelItems[newIdx]);
         }
       },
       ArrowUp: () => {
         const newIdx = Math.max(selectedIdx - 1, -1);
         setSelectedIdx(newIdx);
         if (newIdx >= 0 && onItemSelect) {
-          onItemSelect(LEFT_PANEL_ITEMS[newIdx]);
+          onItemSelect(leftPanelItems[newIdx]);
         }
       },
       Enter: () => {
         if (selectedIdx === -1) {
           setSelectedIdx(0);
           if (onItemSelect) {
-            onItemSelect(LEFT_PANEL_ITEMS[0]);
+            onItemSelect(leftPanelItems[0]);
           }
         } else if (selectedIdx >= 0) {
           if (onPanelActive) {
@@ -156,11 +152,11 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
           style={dosTreeListStyle}
           ref={listRef}
         >
-          {LEFT_PANEL_ITEMS.map((item: string, idx: number) => (
+          {leftPanelItems.map((item, idx) => (
             <li key={idx} style={dosTreeItemStyle}>
               <div
                 style={
-                  idx === LEFT_PANEL_ITEMS.length - 1
+                  idx === leftPanelItems.length - 1
                     ? dosTreeLineLastStyle
                     : dosTreeLineStyle
                 }
@@ -178,10 +174,10 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   justifyContent: 'space-between',
                   ...(selectedIdx === idx && activePanel !== 'right'
                     ? {
-                        ...dosButtonSelectedStyle,
-                        background: '#55FFFF',
-                        color: '#000',
-                      }
+                      ...dosButtonSelectedStyle,
+                      background: '#55FFFF',
+                      color: '#000',
+                    }
                     : { color: '#00FFFF', background: 'transparent' }),
                 }}
                 onClick={() => handleItemClick(idx)}
