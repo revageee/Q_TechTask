@@ -1,90 +1,31 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Header } from '@/components/Header';
 import { LeftPanel } from '@/components/LeftPanel';
 import { RightPanel } from '@/components/RightPanel';
 import { Footer } from '@/components/Footer';
-import {
-  HEADER_DATA,
-  FOLDER_DATA,
-  LEFT_PANEL_DATA,
-  FOOTER_DATA,
-  DEFAULT_SELECTED_FOLDER,
-} from '@/constants/appConstants';
+import { useHomeLogic } from '@/hooks/useHomeLogic';
 
 export default function Home() {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [activePanel, setActivePanel] = useState<
-    'left' | 'right' | 'header' | null
-  >(null);
-  const [footerInputValue, setFooterInputValue] = useState('');
-  const [selectedFolder, setSelectedFolder] = useState<string>(
-    DEFAULT_SELECTED_FOLDER,
-  );
-
-  const handleCommandClick = (command: { name: string; number: number }) => {
-    alert(`Виконується команда: ${command.name} (${command.number})`);
-  };
-
-  const handleFooterInputChange = (value: string) => {
-    setFooterInputValue(value);
-    if (value.toLowerCase() === 'help') {
-      alert(
-        'Справка: Доступні команди - help, menu, view, edit, copy, remmov, mkdir, delete, pulldn, quit',
-      );
-    } else if (value.toLowerCase() === 'quit') {
-      alert('Вихід з програми...');
-    }
-  };
-
-  const handleFooterEnter = (value: string) => {
-    alert(`Виконується команда: ${value}`);
-    setFooterInputValue('');
-  };
-
-  const handleLeftPanelItemClick = (folderName: string) => {
-    setSelectedFolder(folderName);
-  };
-
-  const handleLeftPanelActive = (active: boolean) => {
-    if (active) {
-      setActivePanel('left');
-    } else {
-      if (activePanel === 'header') {
-        setActivePanel('header');
-      } else {
-        setActivePanel('right');
-      }
-    }
-  };
-
-  const handleRightPanelActive = (active: boolean) => {
-    if (active) {
-      setActivePanel('right');
-    } else {
-      if (activePanel === 'header') {
-        setActivePanel('header');
-      } else {
-        setActivePanel('left');
-      }
-    }
-  };
-
-  const handleDropdownToggle = () => {
-    setDropdownOpen((v) => !v);
-    if (!dropdownOpen) {
-      setActivePanel('header');
-    }
-  };
-
-  const handleOutsideClick = () => {
-    setDropdownOpen(false);
-    setActivePanel('left');
-  };
-
-  const currentRightPanelData =
-    FOLDER_DATA[selectedFolder as keyof typeof FOLDER_DATA] || FOLDER_DATA.DN;
+  const {
+    HEADER_DATA,
+    LEFT_PANEL_DATA,
+    FOOTER_DATA,
+    dropdownOpen,
+    activePanel,
+    footerInputValue,
+    selectedFolder,
+    currentRightPanelData,
+    handleDropdownToggle,
+    handleOutsideClick,
+    handleFooterInputChange,
+    handleFooterEnter,
+    handleCommandClick,
+    handleLeftPanelActive,
+    handleRightPanelActive,
+    handleLeftPanelItemClick,
+  } = useHomeLogic();
 
   return (
     <div className="w-full min-h-screen flex flex-col bg-[#0000AA] text-[#55FFFF] font-dos">
