@@ -9,11 +9,7 @@ import {
   dosHotkeyStyle,
   dosDropdownBorderStyle,
 } from '@/styles/commonStyles';
-import {
-  FILE_DROPDOWN_ITEMS,
-  DropdownItem,
-  MenuItem,
-} from '@/constants/appConstants';
+import { FILE_DROPDOWN_ITEMS, DropdownItem, MenuItem } from '@/constants/appConstants';
 
 type HeaderProps = {
   items: MenuItem[];
@@ -44,18 +40,14 @@ export const Header: React.FC<HeaderProps> = ({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         onOutsideClick();
       }
     }
 
     if (activeDropdown) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () =>
-        document.removeEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [activeDropdown, onOutsideClick]);
 
@@ -75,8 +67,7 @@ export const Header: React.FC<HeaderProps> = ({
 
     const menuActions: Record<string, () => void> = {
       ArrowRight: () => setActiveMenuIdx((idx) => (idx + 1) % items.length),
-      ArrowLeft: () =>
-        setActiveMenuIdx((idx) => (idx - 1 + items.length) % items.length),
+      ArrowLeft: () => setActiveMenuIdx((idx) => (idx - 1 + items.length) % items.length),
       Enter: () => {
         if (items[activeMenuIdx].dropdown) {
           onDropdownToggle();
@@ -85,12 +76,9 @@ export const Header: React.FC<HeaderProps> = ({
     };
 
     const dropdownActions: Record<string, () => void> = {
-      ArrowDown: () =>
-        setDropdownIndex((idx) => (idx + 1) % fileDropdown.length),
+      ArrowDown: () => setDropdownIndex((idx) => (idx + 1) % fileDropdown.length),
       ArrowUp: () =>
-        setDropdownIndex(
-          (idx) => (idx - 1 + fileDropdown.length) % fileDropdown.length,
-        ),
+        setDropdownIndex((idx) => (idx - 1 + fileDropdown.length) % fileDropdown.length),
       Enter: () => {
         handleDropdownClick(dropdownIndex);
         onOutsideClick();
@@ -123,9 +111,7 @@ export const Header: React.FC<HeaderProps> = ({
           return (
             <div key={item.label} className="relative h-full">
               <button
-                className={
-                  'h-full px-12 flex items-center font-bold border-none outline-none'
-                }
+                className={'h-full px-12 flex items-center font-bold border-none outline-none'}
                 onClick={() => handleMenuClick(idx)}
                 tabIndex={-1}
                 style={{
@@ -159,14 +145,10 @@ export const Header: React.FC<HeaderProps> = ({
                           aria-label={`Select ${sub.label}${sub.hotkey ? ` (${sub.hotkey})` : ''}`}
                         >
                           <span>
-                            <span style={{ color: '#FFFF55' }}>
-                              {sub.label[0]}
-                            </span>
+                            <span style={{ color: '#FFFF55' }}>{sub.label[0]}</span>
                             {sub.label.slice(1)}
                           </span>
-                          {sub.hotkey && (
-                            <span style={dosHotkeyStyle}>{sub.hotkey}</span>
-                          )}
+                          {sub.hotkey && <span style={dosHotkeyStyle}>{sub.hotkey}</span>}
                         </button>
                       );
                     })}

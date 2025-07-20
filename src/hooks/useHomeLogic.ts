@@ -11,13 +11,9 @@ import {
 
 export function useHomeLogic() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [activePanel, setActivePanel] = useState<
-    'left' | 'right' | 'header' | null
-  >(null);
+  const [activePanel, setActivePanel] = useState<'left' | 'right' | 'header' | null>(null);
   const [footerInputValue, setFooterInputValue] = useState('');
-  const [selectedFolder, setSelectedFolder] = useState<string>(
-    DEFAULT_SELECTED_FOLDER,
-  );
+  const [selectedFolder, setSelectedFolder] = useState<string>(DEFAULT_SELECTED_FOLDER);
 
   const currentRightPanelData =
     FOLDER_DATA[selectedFolder as keyof typeof FOLDER_DATA] || FOLDER_DATA.DN;
@@ -47,15 +43,11 @@ export function useHomeLogic() {
   };
 
   const handleLeftPanelActive = (active: boolean) => {
-    setActivePanel(
-      active ? 'left' : activePanel === 'header' ? 'header' : 'right',
-    );
+    setActivePanel(active ? 'left' : activePanel === 'header' ? 'header' : 'right');
   };
 
   const handleRightPanelActive = (active: boolean) => {
-    setActivePanel(
-      active ? 'right' : activePanel === 'header' ? 'header' : 'left',
-    );
+    setActivePanel(active ? 'right' : activePanel === 'header' ? 'header' : 'left');
   };
 
   const handleDropdownToggle = () => {

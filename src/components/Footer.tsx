@@ -35,11 +35,7 @@ export const Footer: React.FC<FooterProps> = ({
 
   return (
     <div className="bg-black">
-      <PrefooterInput
-        value={inputValue}
-        onChange={onInputChange}
-        onEnter={onEnter}
-      />
+      <PrefooterInput value={inputValue} onChange={onInputChange} onEnter={onEnter} />
       <footer
         className="w-full bg-dosBlack flex flex-wrap justify-between font-dos text-dosYellow overflow-x-auto"
         style={{ rowGap: 4 }}
