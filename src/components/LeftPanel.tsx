@@ -143,23 +143,12 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
         onClick={handleHeaderClick}
         selected={activePanel !== 'right' && activePanel !== 'header'}
       />
-      <div
-        className="flex flex-col m-1 mt-0 h-full"
-        style={dosPanelContentStyle}
-      >
-        <ul
-          className="flex flex-col items-start"
-          style={dosTreeListStyle}
-          ref={listRef}
-        >
+      <div className="flex flex-col m-1 mt-0 h-full" style={dosPanelContentStyle}>
+        <ul className="flex flex-col items-start" style={dosTreeListStyle} ref={listRef}>
           {leftPanelItems.map((item, idx) => (
             <li key={idx} style={dosTreeItemStyle}>
               <div
-                style={
-                  idx === leftPanelItems.length - 1
-                    ? dosTreeLineLastStyle
-                    : dosTreeLineStyle
-                }
+                style={idx === leftPanelItems.length - 1 ? dosTreeLineLastStyle : dosTreeLineStyle}
               >
                 <div style={dosTreeLineTopStyle} />
               </div>
@@ -172,9 +161,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  ...(selectedIdx === idx &&
-                  activePanel !== 'right' &&
-                  activePanel !== 'header'
+                  ...(selectedIdx === idx && activePanel !== 'right' && activePanel !== 'header'
                     ? {
                         ...dosButtonSelectedStyle,
                         background: '#55FFFF',
@@ -185,9 +172,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                 onClick={() => handleItemClick(idx)}
                 tabIndex={-1}
                 aria-pressed={
-                  selectedIdx === idx &&
-                  activePanel !== 'right' &&
-                  activePanel !== 'header'
+                  selectedIdx === idx && activePanel !== 'right' && activePanel !== 'header'
                 }
                 aria-label={`Select ${item}`}
               >

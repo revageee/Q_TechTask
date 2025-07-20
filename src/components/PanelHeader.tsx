@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  dosPanelHeaderStyle,
-  dosButtonStyle,
-  dosButtonSelectedStyle,
-} from '@/styles/commonStyles';
+import { dosPanelHeaderStyle, dosButtonStyle, dosButtonSelectedStyle } from '@/styles/commonStyles';
 
 type PanelHeaderProps = {
   label: string;
@@ -11,15 +7,8 @@ type PanelHeaderProps = {
   selected?: boolean;
 };
 
-export const PanelHeader: React.FC<PanelHeaderProps> = ({
-  label,
-  onClick,
-  selected = false,
-}) => (
-  <div
-    className="w-full flex items-stretch justify-center relative"
-    style={dosPanelHeaderStyle}
-  >
+export const PanelHeader: React.FC<PanelHeaderProps> = ({ label, onClick, selected = false }) => (
+  <div className="w-full flex items-stretch justify-center relative" style={dosPanelHeaderStyle}>
     <button
       className="flex items-center justify-center h-full px-4 font-bold text-center"
       style={{

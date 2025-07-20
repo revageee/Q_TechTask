@@ -90,9 +90,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
       const actions: Record<string, () => void> = {
         ArrowDown: () => {
           setSelectedIdx((prev) =>
-            prev.map((v, i) =>
-              i === selectedCol ? Math.min(v + 1, colLength - 1) : v,
-            ),
+            prev.map((v, i) => (i === selectedCol ? Math.min(v + 1, colLength - 1) : v)),
           );
         },
         ArrowUp: () => {
@@ -104,8 +102,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
           if (selectedCol > 0) setSelectedCol((col) => col - 1);
         },
         ArrowRight: () => {
-          if (selectedCol < columns.length - 1)
-            setSelectedCol((col) => col + 1);
+          if (selectedCol < columns.length - 1) setSelectedCol((col) => col + 1);
         },
         Enter: () => {
           if (selectedIdx[selectedCol] === 0) {
@@ -145,28 +142,14 @@ export const RightPanel: React.FC<RightPanelProps> = ({
       onKeyDown={handleKeyDown}
       ref={panelRef}
     >
-      <PanelHeader
-        label="C:\"
-        onClick={handleHeaderClick}
-        selected={activePanel === 'right'}
-      />
-      <div
-        className="flex flex-col m-1 mt-0 h-full"
-        style={dosPanelContentStyle}
-      >
-        <div
-          className="flex flex-row w-full h-full items-stretch"
-          style={{ marginTop: 0 }}
-        >
+      <PanelHeader label="C:\" onClick={handleHeaderClick} selected={activePanel === 'right'} />
+      <div className="flex flex-col m-1 mt-0 h-full" style={dosPanelContentStyle}>
+        <div className="flex flex-row w-full h-full items-stretch" style={{ marginTop: 0 }}>
           {[0, 1, 2].map((col) => (
             <React.Fragment key={col}>
               <div className="flex-1 text-center font-bold flex flex-col h-full">
                 <div style={dosPanelTitleStyle}>{columns[col].title}</div>
-                <ul
-                  className="flex-1 h-full space-y-0.5"
-                  ref={listRefs[col]}
-                  tabIndex={-1}
-                >
+                <ul className="flex-1 h-full space-y-0.5" ref={listRefs[col]} tabIndex={-1}>
                   {columns[col].items.map((item, i) => (
                     <li key={item.name} style={{ width: '100%', padding: 8 }}>
                       <button
@@ -213,10 +196,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                                   ? '#000'
                                   : '#00FFFF',
                               marginLeft:
-                                typeof window !== 'undefined' &&
-                                window.innerWidth >= 1280
-                                  ? 0
-                                  : 8,
+                                typeof window !== 'undefined' && window.innerWidth >= 1280 ? 0 : 8,
                             }}
                           >
                             {item.format}
