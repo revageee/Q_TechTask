@@ -141,13 +141,13 @@ export const useKeyboardNavigation = (config: NavigationConfig) => {
           const actions: Record<string, () => void> = {
             ArrowDown: () => {
               const newIndices = currentIndices.map((v, i) =>
-                i === selectedCol ? Math.min(v + 1, colLength - 1) : v
+                i === selectedCol ? Math.min(v + 1, colLength - 1) : v,
               );
               onIndexChange(newIndices);
             },
             ArrowUp: () => {
               const newIndices = currentIndices.map((v, i) =>
-                i === selectedCol ? Math.max(v - 1, 0) : v
+                i === selectedCol ? Math.max(v - 1, 0) : v,
               );
               onIndexChange(newIndices);
             },
@@ -187,8 +187,8 @@ export const useKeyboardNavigation = (config: NavigationConfig) => {
         }
       }
     },
-    [config]
+    [config],
   );
 
   return { handleKeyDown };
-}; 
+};

@@ -79,7 +79,13 @@ export default function Home() {
       <div className="flex-1 flex flex-col">
         <div
           className="flex-1 flex flex-row"
-          style={{ borderTop: 0, borderRadius: 0, height: '100%', paddingLeft: 4, paddingBottom: 4 }}
+          style={{
+            borderTop: 0,
+            borderRadius: 0,
+            height: '100%',
+            paddingLeft: 4,
+            paddingBottom: 4,
+          }}
         >
           <div style={{ flex: 1, minWidth: 0 }}>
             <LeftPanel

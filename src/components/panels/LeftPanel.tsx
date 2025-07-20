@@ -115,7 +115,9 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                 <div style={dosTreeLineTopStyle} />
               </div>
               <PanelButton
-                isSelected={selectedIdx === idx && activePanel !== 'right' && activePanel !== 'header'}
+                isSelected={
+                  selectedIdx === idx && activePanel !== 'right' && activePanel !== 'header'
+                }
                 onClick={() => handleItemClick(idx)}
                 ariaLabel={`Select ${item}`}
               >
