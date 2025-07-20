@@ -212,6 +212,11 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                                 activePanel !== 'header'
                                   ? '#000'
                                   : '#00FFFF',
+                              marginLeft:
+                                typeof window !== 'undefined' &&
+                                window.innerWidth >= 1280
+                                  ? 0
+                                  : 8,
                             }}
                           >
                             {item.format}
